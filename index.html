@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カタカナ学習</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>カタカナ学習アプリ</h1>
+    <div id="menu">
+        <button onclick="startGame('full')">50音全体</button>
+        <button onclick="startGame('row')">行別</button>
+        <button onclick="startGame('column')">段別</button>
+    </div>
+    
+    <div id="game" style="display:none;">
+        <div id="hiragana-board"></div>
+        <div id="katakana-cards"></div>
+        <button onclick="resetGame()">メニューに戻る</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

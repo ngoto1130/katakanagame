@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#menu button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#hiragana-board, #katakana-cards {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.card, .drop-zone {
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 24px;
+    background-color: lightgray;
+}
+
+.drop-zone {
+    background-color: white;
+}
+
+.correct {
+    background-color: lightgreen;
+}
+
+.incorrect {
+    background-color: lightcoral;
+}
