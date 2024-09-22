@@ -1,12 +1,33 @@
-const hiraganaList = ["あ", "い", "う", "え", "お"];  // 簡単な例としてあ行だけ
-const katakanaList = ["ア", "イ", "ウ", "エ", "オ"];
-let gameMode = '';
+const hiraganaList = [
+    "あ", "い", "う", "え", "お",
+    "か", "き", "く", "け", "こ",
+    "さ", "し", "す", "せ", "そ",
+    "た", "ち", "つ", "て", "と",
+    "な", "に", "ぬ", "ね", "の",
+    "は", "ひ", "ふ", "へ", "ほ",
+    "ま", "み", "む", "め", "も",
+    "や", "ゆ", "よ",
+    "ら", "り", "る", "れ", "ろ",
+    "わ", "を", "ん"
+];
+
+const katakanaList = [
+    "ア", "イ", "ウ", "エ", "オ",
+    "カ", "キ", "ク", "ケ", "コ",
+    "サ", "シ", "ス", "セ", "ソ",
+    "タ", "チ", "ツ", "テ", "ト",
+    "ナ", "ニ", "ヌ", "ネ", "ノ",
+    "ハ", "ヒ", "フ", "ヘ", "ホ",
+    "マ", "ミ", "ム", "メ", "モ",
+    "ヤ", "ユ", "ヨ",
+    "ラ", "リ", "ル", "レ", "ロ",
+    "ワ", "ヲ", "ン"
+];
 
 function startGame(mode) {
-    gameMode = mode;
     document.getElementById('menu').style.display = 'none';
     document.getElementById('game').style.display = 'block';
-    setupGameBoard();
+    setupGameBoard(mode);
 }
 
 function resetGame() {
@@ -14,14 +35,33 @@ function resetGame() {
     document.getElementById('game').style.display = 'none';
 }
 
-function setupGameBoard() {
+function setupGameBoard(mode) {
     const hiraganaBoard = document.getElementById('hiragana-board');
     const katakanaCards = document.getElementById('katakana-cards');
 
     hiraganaBoard.innerHTML = '';
     katakanaCards.innerHTML = '';
 
-    hiraganaList.forEach((hiragana, index) => {
+    let hiraganaSubset, katakanaSubset;
+    
+    // モードに基づいて配列を切り取る
+    switch (mode) {
+        case 'row':
+            hiraganaSubset = hiraganaList.slice(0, 5); // あ行
+            katakanaSubset = katakanaList.slice(0, 5); // ア行
+            break;
+        case 'column':
+            hiraganaSubset = hiraganaList.filter((_, index) => index % 5 === 0); // あ段
+            katakanaSubset = katakanaList.filter((_, index) => index % 5 === 0); // ア段
+            break;
+        default:
+            hiraganaSubset = hiraganaList;
+            katakanaSubset = katakanaList;
+            break;
+    }
+
+    // ひらがなボードのセットアップ
+    hiraganaSubset.forEach((hiragana, index) => {
         let dropZone = document.createElement('div');
         dropZone.className = 'drop-zone';
         dropZone.setAttribute('data-index', index);
@@ -30,7 +70,7 @@ function setupGameBoard() {
         let katakanaCard = document.createElement('div');
         katakanaCard.className = 'card';
         katakanaCard.draggable = true;
-        katakanaCard.innerText = katakanaList[index];
+        katakanaCard.innerText = katakanaSubset[index];
         katakanaCard.setAttribute('data-index', index);
         katakanaCard.addEventListener('dragstart', dragStart);
         katakanaCards.appendChild(katakanaCard);
