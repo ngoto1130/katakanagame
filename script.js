@@ -24,6 +24,14 @@ const katakanaList = [
     "ワ", "ヲ", "ン"
 ];
 
+const columns = [
+    [ "わ", "ら", "や", "ま", "は", "な", "た", "さ", "か", "あ" ],
+    [ "を", "り", " ", "み", "ひ", "に", "ち", "し", "き", "い" ],
+    [ " ", "る", "ゆ", "む", "ふ", "ぬ", "つ", "す", "く", "う" ],
+    [ " ", "れ", " ", "め", "へ", "ね", "て", "せ", "け", "え" ],
+    [ "ん", "ろ", "よ", "も", "ほ", "の", "と", "そ", "こ", "お" ]
+];
+
 function startGame(mode) {
     document.getElementById('menu').style.display = 'none';
     document.getElementById('game').style.display = 'block';
@@ -43,8 +51,7 @@ function setupGameBoard(mode) {
     katakanaCards.innerHTML = '';
 
     let hiraganaSubset, katakanaSubset;
-    
-    // モードに基づいて配列を切り取る
+
     switch (mode) {
         case 'row':
             hiraganaSubset = hiraganaList.slice(0, 5); // あ行
@@ -60,17 +67,35 @@ function setupGameBoard(mode) {
             break;
     }
 
-    // ひらがなボードのセットアップ
-    hiraganaSubset.forEach((hiragana, index) => {
-        let dropZone = document.createElement('div');
-        dropZone.className = 'drop-zone';
-        dropZone.setAttribute('data-index', index);
-        hiraganaBoard.appendChild(dropZone);
+    // 縦列ごとにひらがなボードを作成
+    columns.forEach(column => {
+        let columnDiv = document.createElement('div');
+        columnDiv.className = 'hiragana-column';
 
+        column.forEach(hiragana => {
+            let dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+
+            // ひらがなラベルを追加
+            if (hiragana !== " ") {
+                let hiraganaLabel = document.createElement('div');
+                hiraganaLabel.className = 'hiragana-label';
+                hiraganaLabel.innerText = hiragana;
+                columnDiv.appendChild(hiraganaLabel);
+            }
+
+            columnDiv.appendChild(dropZone);
+        });
+
+        hiraganaBoard.appendChild(columnDiv);
+    });
+
+    // カタカナカードをセットアップ
+    katakanaSubset.forEach((katakana, index) => {
         let katakanaCard = document.createElement('div');
         katakanaCard.className = 'card';
         katakanaCard.draggable = true;
-        katakanaCard.innerText = katakanaSubset[index];
+        katakanaCard.innerText = katakana;
         katakanaCard.setAttribute('data-index', index);
         katakanaCard.addEventListener('dragstart', dragStart);
         katakanaCards.appendChild(katakanaCard);
